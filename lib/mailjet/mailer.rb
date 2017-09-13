@@ -209,7 +209,7 @@ class Mailjet::APIMailer
       if key == :Email
         payload[key] = Mail::Encodings.value_decode(value)
       elsif value.is_a?(Hash)
-        decode_payload! value
+        decode_payload_V3_1! value
       end
     end
   end
