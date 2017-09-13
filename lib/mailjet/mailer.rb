@@ -198,6 +198,8 @@ class Mailjet::APIMailer
     payload[:Cc] = ccs if mail[:cc]
     payload[:Bcc] = bccs if mail[:bcc]
 
+    raise payload.to_s
+
     payload
   end
 
