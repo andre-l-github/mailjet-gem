@@ -130,17 +130,17 @@ class Mailjet::APIMailer
     if (mail[:to])
       if (mail[:to].is_a? String)
         if mail[:to].display_names.first
-          to = [{:Email=>mail[:to].addresses.first, :Name=>mail[:to].display_names.first}]
+          to = [{:Email=>decode_address(mail[:to].addresses.first), :Name=>mail[:to].display_names.first}]
         else
-          to = [{:Email=>mail[:to].addresses.first}]
+          to = [{:Email=>decode_address(mail[:to]).addresses.first}]
         end
       else
         to = []
         mail[:to].each do |t|
           if (t.display_name)
-            to << { :Email => t.address, :Name => t.display_name }
+            to << { :Email => decode_address(t.address), :Name => t.display_name }
           else
-            to << { :Email => t.address }
+            to << { :Email => decode_address(t.address) }
           end
         end
       end
@@ -265,7 +265,11 @@ class Mailjet::APIMailer
     payload.merge(content)
     .merge(base_from)
     .merge(@delivery_method_options_v3_0)
-    end
+  end
+
+  def decode_address(email_address)
+    email_address.try(:decode)
+  end
 end
 
 ActionMailer::Base.add_delivery_method :mailjet_api, Mailjet::APIMailer
