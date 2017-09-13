@@ -198,8 +198,6 @@ class Mailjet::APIMailer
     payload[:Cc] = ccs if mail[:cc]
     payload[:Bcc] = bccs if mail[:bcc]
 
-    raise payload.to_s
-
     payload
   end
 
@@ -270,7 +268,7 @@ class Mailjet::APIMailer
   end
 
   def decode_address(email_address)
-    email_address.try(:decode)
+    Mail::Encodings.value_decode(email_address)
   end
 end
 
