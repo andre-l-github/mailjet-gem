@@ -130,17 +130,17 @@ class Mailjet::APIMailer
     if (mail[:to])
       if (mail[:to].is_a? String)
         if mail[:to].display_names.first
-          to = [{:Email=>decode_address(mail[:to].addresses.first), :Name=>mail[:to].display_names.first}]
+          to = [{:Email=>mail[:to].addresses.first, :Name=>mail[:to].display_names.first}]
         else
-          to = [{:Email=>decode_address(mail[:to]).addresses.first}]
+          to = [{:Email=>mail[:to].addresses.first}]
         end
       else
         to = []
         mail[:to].each do |t|
           if (t.display_name)
-            to << { :Email => decode_address(t.address), :Name => t.display_name }
+            to << { :Email => t.address, :Name => t.display_name }
           else
-            to << { :Email => decode_address(t.address) }
+            to << { :Email => t.address }
           end
         end
       end
